@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
+             x:Class="Kursova.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- Colors -->
+            <Color x:Key="White">#FFFFFF</Color>
+            <Color x:Key="ToxicGreen">#14C50C</Color>
+            <Color x:Key="LightGrey">#D3D4C9</Color>
+
+            <!-- Font Families-->
+            <OnPlatform x:Key="OverpassSemiBold" x:TypeArguments="x:String">
+                <On Platform="Android">Fonts/Overpass-SemiBold.ttf#Overpass</On>
+            </OnPlatform>
+
+            <OnPlatform x:Key="OverpassRegular" x:TypeArguments="x:String">
+                <On Platform="Android">Fonts/Overpass-Regular.ttf#Overpass</On>
+            </OnPlatform>
+
+            <OnPlatform x:Key="SixCapsRegular" x:TypeArguments="x:String">
+                <On Platform="Android">Fonts/SixCaps-Regular.ttf#SixCaps</On>
+            </OnPlatform>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>
