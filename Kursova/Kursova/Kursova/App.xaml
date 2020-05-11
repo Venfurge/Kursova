@@ -8,7 +8,8 @@
 
             <!-- Colors -->
             <Color x:Key="White">#FFFFFF</Color>
-            <Color x:Key="ToxicGreen">#14C50C</Color>
+            <Color x:Key="LightGreen">#1eb33d</Color>
+            <Color x:Key="DarkGreen">#00521c</Color>
             <Color x:Key="LightGrey">#D3D4C9</Color>
 
             <!-- Font Families-->
