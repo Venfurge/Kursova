@@ -7,6 +7,7 @@ namespace Kursova.ViewModels
     public class MainPageViewModel : BaseViewModel
     {
         private SlideMenuItem _selectedMenuItem;
+
         public MainPageViewModel(INavigationService navigationService) 
             : base(navigationService)
         {
@@ -51,7 +52,7 @@ namespace Kursova.ViewModels
                     await NavigationService.NavigateAsync("MainPage", null, false);
                     break;
                 case 1:
-                    await NavigationService.NavigateAsync("", null, true);
+                    await NavigationService.NavigateAsync("ActivitiesPage", null, true);
                     break;
                 case 2:
                     await NavigationService.NavigateAsync("", null, true);

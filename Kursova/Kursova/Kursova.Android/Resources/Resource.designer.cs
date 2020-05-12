@@ -8826,6 +8826,9 @@ namespace Kursova.Droid
 			// aapt resource value: 0x7F07013E
 			public const int tooltip_frame_light = 2131165502;
 			
+			// aapt resource value: 0x7F07013F
+			public const int x = 2131165503;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
