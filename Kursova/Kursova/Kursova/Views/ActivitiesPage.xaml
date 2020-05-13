@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:controls="clr-namespace:Kursova.Controls"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="Kursova.Views.ActivitiesPage">
     
@@ -53,51 +52,51 @@
                 ItemsSource="{Binding ActivityItems}"
                 SelectedItem="{Binding SelectedActivityItem, Mode=TwoWay}"
                 SelectionMode="Single">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="10" RowSpacing="0" ColumnSpacing="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="2"/>
-                            </Grid.RowDefinitions>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10" RowSpacing="0" ColumnSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="2"/>
+                                </Grid.RowDefinitions>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Label 
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                FontSize="25"
-                                Margin="0,0,10,0"
-                                Text="{Binding Id, StringFormat='{0:F0}'}"/>
+                                <Label 
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontSize="25"
+                                    Margin="0,0,10,0"
+                                    Text="{Binding Id, StringFormat='{0:F0}'}"/>
 
-                            <Label
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                FontSize="25"
-                                Text="{Binding Name}"
-                                FontFamily="{StaticResource OverpassSemiBold}"
-                                TextColor="{StaticResource DarkGreen}"/>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    FontSize="25"
+                                    Text="{Binding Name}"
+                                    FontFamily="{StaticResource OverpassSemiBold}"
+                                    TextColor="{StaticResource DarkGreen}"/>
 
-                            <controls:CustomCheckBox
-                                Grid.Row="0"
-                                Grid.Column="2"
-                                HorizontalOptions="End"
-                                IsChecked="{Binding IsChecked}"/>
+                                <CheckBox
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    HorizontalOptions="End"
+                                    IsChecked="{Binding IsChecked}"/>
 
-                            <Frame 
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                BackgroundColor="{StaticResource LightGreen}"
-                                Margin="25,0"/>
+                                <Frame 
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    BackgroundColor="{StaticResource LightGreen}"
+                                    Margin="25,0"/>
 
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
             </CollectionView>
 
             <Button
@@ -110,7 +109,8 @@
                 WidthRequest="200"
                 FontSize="20"
                 Text="Add"              
-                Margin="0,20"/>
+                Margin="0,20"
+                Command="{Binding AddActivityCommand}"/>
 
         </Grid>
     </ContentPage.Content>

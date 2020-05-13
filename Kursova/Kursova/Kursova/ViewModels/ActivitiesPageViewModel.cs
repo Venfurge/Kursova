@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,11 +22,13 @@ namespace Kursova.ViewModels
             IsClear = ActivityItems.Count > 0 ? false : true;
 
             ClosePageCommand = new DelegateCommand(OnClosePage);
+            AddActivityCommand = new DelegateCommand(OnAddActivity);
         }
 
         public ObservableCollection<ActivityItem> ActivityItems { get; set; }
 
         public DelegateCommand ClosePageCommand { get; }
+        public DelegateCommand AddActivityCommand { get; }
 
         public ActivityItem SelectedActivityItem
         {
@@ -74,6 +77,11 @@ namespace Kursova.ViewModels
         private async void OnClosePage()
         {
             await NavigationService.GoBackAsync();
+        }
+
+        private async void OnAddActivity()
+        {
+            await NavigationService.NavigateAsync("ActivityCreationPopupPage", null, true);
         }
     }
 }

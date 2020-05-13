@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Views;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 
 namespace Kursova.Droid
 {
@@ -22,6 +23,7 @@ namespace Kursova.Droid
 
             base.OnCreate(bundle);
 
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App(new AndroidInitializer()));
         }
@@ -32,6 +34,7 @@ namespace Kursova.Droid
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Register any platform specific implementations
+            containerRegistry.RegisterPopupNavigationService();
         }
     }
 }
