@@ -1,36 +1,39 @@
-﻿using Kursova.Models;
+﻿using Kursova.Data.ActivityStore;
+using Kursova.Data.SQLiteDB;
+using Kursova.ViewModels.ItemsViewModels;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Rg.Plugins.Popup.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using Xamarin.Forms;
 
 namespace Kursova.ViewModels
 {
     public class ActivitiesPageViewModel : BaseViewModel
     {
-        private ActivityItem _selectedActivityItem;
+        private ActivityItemViewModel _selectedActivityItem;
+
+        private IActivityStore _activityStore;
 
         private bool _isClear;
         public ActivitiesPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
+            _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
             InitializeActivityItems();
+
             IsClear = ActivityItems.Count > 0 ? false : true;
 
             ClosePageCommand = new DelegateCommand(OnClosePage);
             AddActivityCommand = new DelegateCommand(OnAddActivity);
         }
 
-        public ObservableCollection<ActivityItem> ActivityItems { get; set; }
+        public ObservableCollection<ActivityItemViewModel> ActivityItems { get; set; }
 
         public DelegateCommand ClosePageCommand { get; }
+
         public DelegateCommand AddActivityCommand { get; }
 
-        public ActivityItem SelectedActivityItem
+        public ActivityItemViewModel SelectedActivityItem
         {
             get => _selectedActivityItem;
             set
@@ -57,16 +60,13 @@ namespace Kursova.ViewModels
             }
         }
 
-        private void InitializeActivityItems()
+        private async void InitializeActivityItems()
         {
-            var activityItems = new ObservableCollection<ActivityItem>
-            {
-                new ActivityItem(1, "First activity", true),
-                new ActivityItem(2, "Second activity", false),
-                new ActivityItem(3, "Third activity", false),
-            };
-
-            ActivityItems = new ObservableCollection<ActivityItem>(activityItems);
+            ActivityItems = new ObservableCollection<ActivityItemViewModel>();
+            var activities = await _activityStore.GetActivitiesAsync();
+            if (activities != null)
+                foreach (var activity in activities)
+                    ActivityItems.Add(new ActivityItemViewModel(activity));
         }
 
         private async void NavigateToSelectedActivity(int activityId)
