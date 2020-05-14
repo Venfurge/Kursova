@@ -19,6 +19,7 @@ namespace Kursova.ViewModels
             : base(navigationService)
         {
             _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
+            ActivityItems = new ObservableCollection<ActivityItemViewModel>();
             InitializeActivityItems();
 
             ClosePageCommand = new DelegateCommand(OnClosePage);
@@ -60,11 +61,12 @@ namespace Kursova.ViewModels
 
         private async void InitializeActivityItems()
         {
-            ActivityItems = new ObservableCollection<ActivityItemViewModel>();
+            ActivityItems.Clear();
             var activities = await _activityStore.GetActivitiesAsync();
             if (activities != null)
                 foreach (var activity in activities)
                     ActivityItems.Add(new ActivityItemViewModel(activity));
+            IsClear = ActivityItems.Count > 0 ? false : true;
         }
 
         private async void UpdateActivityItems()
@@ -79,12 +81,11 @@ namespace Kursova.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            IsClear = ActivityItems.Count > 0 ? false : true;
+            InitializeActivityItems();
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            base.OnNavigatedFrom(parameters);
             UpdateActivityItems();
         }
 
@@ -104,6 +105,5 @@ namespace Kursova.ViewModels
         {
             await NavigationService.NavigateAsync("ActivityCreationPopupPage", null, true);
         }
-
     }
 }

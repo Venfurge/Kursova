@@ -3,7 +3,6 @@ using Kursova.Data.SQLiteDB;
 using Kursova.Models;
 using Prism.Commands;
 using Prism.Navigation;
-using SQLite;
 using Xamarin.Forms;
 
 namespace Kursova.ViewModels

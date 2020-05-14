@@ -1,6 +1,4 @@
-﻿using Xamarin.Forms;
-
-namespace Kursova.Views
+﻿namespace Kursova.Views
 {
     public partial class SelectedActivityPopupPage
     {
