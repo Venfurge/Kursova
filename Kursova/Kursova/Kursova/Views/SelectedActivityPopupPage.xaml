@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage
-    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="http://prismlibrary.com"
     prism:ViewModelLocator.AutowireViewModel="True"
-    x:Class="Kursova.Views.ActivityCreationPopupPage">
+    x:Class="Kursova.Views.SelectedActivityPopupPage">
 
-    <Frame Margin="50" CornerRadius="20">
+    <Frame Margin="40" CornerRadius="20">
         <Grid BackgroundColor="{StaticResource White}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -22,19 +23,19 @@
                 Placeholder="Input the activity name"
                 Text="{Binding Name}"
                 FontFamily="{StaticResource OverpassRegular}"/>
-            
+
             <Editor
                 Grid.Row="1"
                 Placeholder="Input the activity description"
                 Text="{Binding Text}"
                 FontFamily="{StaticResource OverpassRegular}"/>
-            
+
             <Label
                 Grid.Row="2"
                 FontSize="16"
                 FontFamily="{StaticResource OverpassRegular}"
                 Text="{Binding SliderValue, StringFormat='Choose times to do: {0:F0}'}"/>
-            
+
             <Slider
                 Grid.Row="3"
                 Maximum="100"
@@ -42,7 +43,7 @@
                 Value="{Binding SliderValue, Mode=OneWayToSource}"
                 MaximumTrackColor="{StaticResource DarkGreen}"               
                 MinimumTrackColor="{StaticResource LightGreen}"/>
-            
+
             <Button
                 Grid.Row="4"
                 HorizontalOptions="Center"
@@ -53,9 +54,24 @@
                 CornerRadius="20"
                 WidthRequest="200"
                 FontSize="20"
-                Text="Save"              
-                Margin="0,20"
-                Command="{Binding AddAndNavigateCommand}"/>
+                Text="Save Changes"              
+                Margin="0,5"
+                Command="{Binding CorrectAndNavigateCommand}"/>
+
+            <Button
+                Grid.Row="5"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                BackgroundColor="{StaticResource LightPink}"
+                FontFamily="{StaticResource OverpassRegular}"
+                TextColor="{StaticResource White}"
+                CornerRadius="20"
+                WidthRequest="200"
+                FontSize="20"
+                Text="Delete"              
+                Margin="0,5"
+                Command="{Binding DeleteAndNavigateCommand}"/>
         </Grid>
     </Frame>
+
 </pages:PopupPage>

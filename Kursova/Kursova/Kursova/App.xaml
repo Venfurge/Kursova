@@ -11,6 +11,7 @@
             <Color x:Key="LightGreen">#1eb33d</Color>
             <Color x:Key="DarkGreen">#00521c</Color>
             <Color x:Key="LightGrey">#D3D4C9</Color>
+            <Color x:Key="LightPink">#ff4081</Color>
 
             <!-- Font Families-->
             <OnPlatform x:Key="OverpassSemiBold" x:TypeArguments="x:String">

@@ -10,6 +10,8 @@ namespace Kursova.ViewModels.ItemsViewModels
         {
             Id = activity.Id;
             Name = activity.Name;
+            Text = activity.Text;
+            MaxResult = activity.MaxResult;
             IsChecked = activity.IsChecked;
         }
 
@@ -20,6 +22,28 @@ namespace Kursova.ViewModels.ItemsViewModels
             set
             {
                 _name = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _text;
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _maxResult;
+        public int MaxResult
+        {
+            get => _maxResult;
+            set
+            {
+                _maxResult = value;
                 RaisePropertyChanged();
             }
         }

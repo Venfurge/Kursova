@@ -1,9 +1,10 @@
-﻿using Prism.Mvvm;
+﻿using Prism.AppModel;
+using Prism.Mvvm;
 using Prism.Navigation;
 
 namespace Kursova.ViewModels
 {
-    public class BaseViewModel : BindableBase, IInitialize, INavigationAware, IDestructible
+    public class BaseViewModel : BindableBase, IInitialize, INavigationAware, IDestructible, IPageLifecycleAware
     {
         protected INavigationService NavigationService { get; private set; }
 
@@ -25,6 +26,16 @@ namespace Kursova.ViewModels
         public virtual void OnNavigatedTo(INavigationParameters parameters)
         {
 
+        }
+
+        public virtual void OnAppearing()
+        {
+            
+        }
+
+        public virtual void OnDisappearing()
+        {
+            
         }
 
         public virtual void Destroy()

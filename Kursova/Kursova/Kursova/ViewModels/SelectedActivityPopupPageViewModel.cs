@@ -3,25 +3,25 @@ using Kursova.Data.SQLiteDB;
 using Kursova.Models;
 using Prism.Commands;
 using Prism.Navigation;
-using SQLite;
 using Xamarin.Forms;
 
 namespace Kursova.ViewModels
 {
-    public class ActivityCreationPopupPageViewModel : BaseViewModel
+    public class SelectedActivityPopupPageViewModel : BaseViewModel
     {
         private ActivityItem _activity;
 
         private IActivityStore _activityStore;
-
-        public ActivityCreationPopupPageViewModel(INavigationService navigationService)
+        public SelectedActivityPopupPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
-            AddAndNavigateCommand = new DelegateCommand(OnAddAndNavigate);
-        }
 
-        public DelegateCommand AddAndNavigateCommand { get; }
+            CorrectAndNavigateCommand = new DelegateCommand(OnCorrectAndNavigate);
+            DeleteAndNavigateCommand = new DelegateCommand(OnDeleteAndNavigate);
+        }
+        public DelegateCommand CorrectAndNavigateCommand { get; }
+        public DelegateCommand DeleteAndNavigateCommand { get; }
 
         private string _name;
         public string Name
@@ -56,24 +56,33 @@ namespace Kursova.ViewModels
             }
         }
 
-        private async void OnAddAndNavigate()
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
-            ////drop ActivityItem table
-            //SQLiteDB db = new SQLiteDB();
-            //SQLiteAsyncConnection connection = db.GetConnection();
-            //await connection.DropTableAsync<ActivityItem>();
+            var id = parameters.GetValue<int>("id");
+            _activity = await _activityStore.GetActivity(id);
+            Text = _activity.Text;
+            Name = _activity.Name;
+            SliderValue = _activity.MaxResult;
+        }
+
+        private async void OnCorrectAndNavigate()
+        {
 
             if (Name != null && Text != null && SliderValue > 0)
             {
-                _activity = new ActivityItem();
                 _activity.Name = Name;
                 _activity.Text = Text;
                 _activity.MaxResult = SliderValue;
                 _activity.IsChecked = true;
-                _activity.Id = 1;
 
-                await _activityStore.AddActivity(_activity);
+                await _activityStore.UpdateActivity(_activity);
             }
+            await NavigationService.GoBackAsync();
+        }
+
+        private async void OnDeleteAndNavigate()
+        {
+            _activityStore.DeleteActivity(_activity);
             await NavigationService.GoBackAsync();
         }
     }

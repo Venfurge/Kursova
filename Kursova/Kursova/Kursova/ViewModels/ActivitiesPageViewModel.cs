@@ -21,8 +21,6 @@ namespace Kursova.ViewModels
             _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
             InitializeActivityItems();
 
-            IsClear = ActivityItems.Count > 0 ? false : true;
-
             ClosePageCommand = new DelegateCommand(OnClosePage);
             AddActivityCommand = new DelegateCommand(OnAddActivity);
         }
@@ -42,7 +40,7 @@ namespace Kursova.ViewModels
 
                 if (_selectedActivityItem != null)
                 {
-                    //NavigateToSelectedActivity(_selectedActivityItem.Id);
+                    NavigateToSelectedActivity(_selectedActivityItem.Id);
                     _selectedActivityItem = null;
                 }
 
@@ -69,9 +67,32 @@ namespace Kursova.ViewModels
                     ActivityItems.Add(new ActivityItemViewModel(activity));
         }
 
+        private async void UpdateActivityItems()
+        {
+            foreach (var activity in ActivityItems)
+            {
+                var currentActivity = await _activityStore.GetActivity(activity.Id);
+                currentActivity.IsChecked = activity.IsChecked;
+                await _activityStore.UpdateActivity(currentActivity);
+            }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            IsClear = ActivityItems.Count > 0 ? false : true;
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+            UpdateActivityItems();
+        }
+
         private async void NavigateToSelectedActivity(int activityId)
         {
-            //Navigation to selected activity with navigation parameter(id)
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("id", activityId);
+            await NavigationService.NavigateAsync("SelectedActivityPopupPage", navigationParameters, true);
         }
 
         private async void OnClosePage()
@@ -83,5 +104,6 @@ namespace Kursova.ViewModels
         {
             await NavigationService.NavigateAsync("ActivityCreationPopupPage", null, true);
         }
+
     }
 }

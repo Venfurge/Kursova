@@ -27,6 +27,7 @@ namespace Kursova
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<ActivitiesPage, ActivitiesPageViewModel>();
             containerRegistry.RegisterForNavigation<ActivityCreationPopupPage, ActivityCreationPopupPageViewModel>();
+            containerRegistry.RegisterForNavigation<SelectedActivityPopupPage, SelectedActivityPopupPageViewModel>();
         }
     }
 }
