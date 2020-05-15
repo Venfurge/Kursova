@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Kursova.Views.MainContentPage"
+             BackgroundImageSource="background.jpg"
+             BackgroundColor="Transparent">
+    
+    <Grid Padding="0,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Frame
+            Grid.Row="0"
+            BackgroundColor="{StaticResource DarkGreen}"
+            HasShadow="False"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            CornerRadius="300"
+            Margin="10,40"
+            Padding="10">
+            <Frame
+                BackgroundColor="{StaticResource LightGreen}"
+                HasShadow="False"               
+                CornerRadius="200"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    FontSize="200"
+                    Text="{Binding Time, StringFormat='{}{0:hh\\:mm}'}"
+                    Margin="30,0"
+                    FontFamily="{StaticResource SixCapsRegular}"
+                    TextColor="{StaticResource White}"/>
+            </Frame>
+        </Frame>
+
+        <Button
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            BackgroundColor="{StaticResource LightGreen}"
+            FontFamily="{StaticResource OverpassRegular}"
+            TextColor="{StaticResource White}"
+            BorderColor="{StaticResource DarkGreen}"
+            BorderWidth="3"
+            CornerRadius="20"
+            WidthRequest="200"
+            FontSize="20"
+            Text="{Binding Text}"              
+            Margin="0,20"
+            Command="{Binding StartPickActivitiesCommand}"/>
+    </Grid>
+</ContentPage>

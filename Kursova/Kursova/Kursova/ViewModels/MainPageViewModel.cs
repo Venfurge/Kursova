@@ -1,19 +1,36 @@
-﻿using Kursova.Models;
+﻿using Kursova.Data.ActivityStore;
+using Kursova.Data.SQLiteDB;
+using Kursova.Models;
+using Prism.Commands;
 using Prism.Navigation;
+using System;
 using System.Collections.ObjectModel;
+using Xamarin.Forms;
 
 namespace Kursova.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
-    {
+    { 
+        private string _text;
+
+        private DateTime _time;
+
+        private bool _isActivitiesChecked;
+
         private SlideMenuItem _selectedMenuItem;
 
-        public MainPageViewModel(INavigationService navigationService) 
+        private IActivityStore _activityStore;
+
+        public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
+            MenuItems = new ObservableCollection<SlideMenuItem>();
             InitializeSlideMenuOptions();
+            StartPickActivitiesCommand = new DelegateCommand(OnStartPickActivities);
         }
         public ObservableCollection<SlideMenuItem> MenuItems { get; set; }
+
+        public DelegateCommand StartPickActivitiesCommand { get; }
 
         public SlideMenuItem SelectedMenuItem
         {
@@ -32,16 +49,61 @@ namespace Kursova.ViewModels
             }
         }
 
-        private void InitializeSlideMenuOptions()
+        public string Text
         {
-            var menuItems = new ObservableCollection<SlideMenuItem>
+            get => _text;
+            set
             {
-                new SlideMenuItem(0, "home.png", "Home"),
-                new SlideMenuItem(1, "activity.png", "Activity"),
-                new SlideMenuItem(2, "statictic.png", "Statistic"),
-            };
-                
-            MenuItems = new ObservableCollection<SlideMenuItem>(menuItems);
+                _text = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public DateTime Time
+        {
+            get => _time;
+            set
+            {
+                _time = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private async void InitializeSlideMenuOptions()
+        {
+            _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
+            var activities = await _activityStore.GetActivitiesAsync();
+
+            _isActivitiesChecked = false;
+            if (activities != null)
+                foreach (var item in activities)
+                    if (item.IsChecked)
+                    {
+                        _isActivitiesChecked = true;
+                        break;
+                    }
+
+            if (_isActivitiesChecked)
+                Text = "Start Activity";
+            else
+                Text = "Select Activity";
+
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                Time = DateTime.Now);
+                return true;
+            });
+
+            MenuItems.Clear();
+            MenuItems.Add(new SlideMenuItem(0, "home.png", "Home"));
+            MenuItems.Add(new SlideMenuItem(1, "activity.png", "Activity"));
+            MenuItems.Add(new SlideMenuItem(2, "statictic.png", "Statistic"));
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            InitializeSlideMenuOptions();
         }
 
         private async void NavigateToSelectedPage(int pageId)
@@ -58,6 +120,14 @@ namespace Kursova.ViewModels
                     await NavigationService.NavigateAsync("", null, true);
                     break;
             }
+        }
+
+        private async void OnStartPickActivities()
+        {
+            if (_isActivitiesChecked)
+                await NavigationService.NavigateAsync("ActivitiesPage", null, true);
+            else
+                await NavigationService.NavigateAsync("ActivitiesPage", null, true);
         }
     }
 }

@@ -11,9 +11,6 @@
     </MasterDetailPage.Master>
 
     <MasterDetailPage.Detail>
-        <ContentPage>
-
-
-        </ContentPage>
+        <views:MainContentPage Title="Content"/>
     </MasterDetailPage.Detail>
 </MasterDetailPage>
