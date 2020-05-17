@@ -1,9 +1,7 @@
-﻿using Kursova.Data.ActivityStore;
-using Kursova.Data.SQLiteDB;
+﻿using Kursova.Data;
 using Kursova.Models;
 using Prism.Commands;
 using Prism.Navigation;
-using Xamarin.Forms;
 
 namespace Kursova.ViewModels
 {
@@ -11,16 +9,17 @@ namespace Kursova.ViewModels
     {
         private ActivityItem _activity;
 
-        private IActivityStore _activityStore;
+        private IItemsRepository _itemsRepository;
 
         public ActivityCreationPopupPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
             AddAndNavigateCommand = new DelegateCommand(OnAddAndNavigate);
         }
 
         public DelegateCommand AddAndNavigateCommand { get; }
+
+        public int CorrectId { get; set; }
 
         private string _name;
         public string Name
@@ -55,13 +54,19 @@ namespace Kursova.ViewModels
             }
         }
 
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            _itemsRepository = parameters.GetValue<IItemsRepository>("repository");
+            CorrectId = parameters.GetValue<int>("correctId");
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            parameters.Add("repository", _itemsRepository);
+        }
+
         private async void OnAddAndNavigate()
         {
-            ////drop ActivityItem table
-            //SQLiteDB db = new SQLiteDB();
-            //SQLiteAsyncConnection connection = db.GetConnection();
-            //await connection.DropTableAsync<ActivityItem>();
-
             if (Name != null && Text != null && SliderValue > 0)
             {
                 _activity = new ActivityItem();
@@ -69,9 +74,9 @@ namespace Kursova.ViewModels
                 _activity.Text = Text;
                 _activity.MaxResult = SliderValue;
                 _activity.IsChecked = true;
-                _activity.Id = 1;
+                _activity.Id = CorrectId;
 
-                await _activityStore.AddActivity(_activity);
+                await _itemsRepository.AddActivityItemAsync(_activity);
             }
             await NavigationService.GoBackAsync();
         }

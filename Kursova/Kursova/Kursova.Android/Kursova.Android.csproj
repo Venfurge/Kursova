@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+      <Version>3.1.4</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Plugin.Popups">
       <Version>7.2.0.1046</Version>
     </PackageReference>
@@ -100,6 +103,10 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Kursova.Standart\Kursova.Standart.csproj">
+      <Project>{6279cd05-c470-4e47-865d-87cb2ebf50be}</Project>
+      <Name>Kursova.Standart</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kursova\Kursova.csproj">
       <Project>{A682884C-CB44-4A89-B752-27BB634E0ABE}</Project>
       <Name>Kursova</Name>

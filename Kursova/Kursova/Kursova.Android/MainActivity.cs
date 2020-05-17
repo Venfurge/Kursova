@@ -2,9 +2,11 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using Kursova.Standart;
 using Prism;
 using Prism.Ioc;
 using Prism.Plugin.Popups;
+using System.IO;
 
 namespace Kursova.Droid
 {
@@ -23,9 +25,13 @@ namespace Kursova.Droid
 
             base.OnCreate(bundle);
 
+            var dbPath = Path.Combine(System.Environment.GetFolderPath
+                (System.Environment.SpecialFolder.Personal), "KursovaTest.db");
+            var itemsRepository = new ItemsRepository(dbPath);
+
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App(new AndroidInitializer()));
+            LoadApplication(new App(new AndroidInitializer(), itemsRepository));
         }
     }
 

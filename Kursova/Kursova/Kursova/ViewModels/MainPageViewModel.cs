@@ -1,5 +1,4 @@
-﻿using Kursova.Data.ActivityStore;
-using Kursova.Data.SQLiteDB;
+﻿using Kursova.Data;
 using Kursova.Models;
 using Prism.Commands;
 using Prism.Navigation;
@@ -19,15 +18,15 @@ namespace Kursova.ViewModels
 
         private SlideMenuItem _selectedMenuItem;
 
-        private IActivityStore _activityStore;
+        private IItemsRepository _itemsRepository;
 
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             MenuItems = new ObservableCollection<SlideMenuItem>();
-            InitializeSlideMenuOptions();
             StartPickActivitiesCommand = new DelegateCommand(OnStartPickActivities);
         }
+
         public ObservableCollection<SlideMenuItem> MenuItems { get; set; }
 
         public DelegateCommand StartPickActivitiesCommand { get; }
@@ -71,8 +70,7 @@ namespace Kursova.ViewModels
 
         private async void InitializeSlideMenuOptions()
         {
-            _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
-            var activities = await _activityStore.GetActivitiesAsync();
+            var activities = await _itemsRepository.GetActivityItemsAsync();
 
             _isActivitiesChecked = false;
             if (activities != null)
@@ -103,7 +101,13 @@ namespace Kursova.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
+            _itemsRepository = parameters.GetValue<IItemsRepository>("repository");
             InitializeSlideMenuOptions();
+        }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            parameters.Add("repository", _itemsRepository);
         }
 
         private async void NavigateToSelectedPage(int pageId)
@@ -111,7 +115,10 @@ namespace Kursova.ViewModels
             switch (pageId)
             {
                 case 0:
-                    await NavigationService.NavigateAsync("MainPage", null, false);
+                    var parameters = new NavigationParameters();
+                    parameters.Add("repository", _itemsRepository);
+
+                    await NavigationService.NavigateAsync("MainPage", parameters, false);
                     break;
                 case 1:
                     await NavigationService.NavigateAsync("ActivitiesPage", null, true);

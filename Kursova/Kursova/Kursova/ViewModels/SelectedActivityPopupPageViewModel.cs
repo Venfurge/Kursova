@@ -1,5 +1,4 @@
-﻿using Kursova.Data.ActivityStore;
-using Kursova.Data.SQLiteDB;
+﻿using Kursova.Data;
 using Kursova.Models;
 using Prism.Commands;
 using Prism.Navigation;
@@ -11,12 +10,11 @@ namespace Kursova.ViewModels
     {
         private ActivityItem _activity;
 
-        private IActivityStore _activityStore;
+        private IItemsRepository _itemsRepository;
+
         public SelectedActivityPopupPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            _activityStore = new SQLiteActivityStore(DependencyService.Get<ISQLiteDB>());
-
             CorrectAndNavigateCommand = new DelegateCommand(OnCorrectAndNavigate);
             DeleteAndNavigateCommand = new DelegateCommand(OnDeleteAndNavigate);
         }
@@ -59,30 +57,35 @@ namespace Kursova.ViewModels
         public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             var id = parameters.GetValue<int>("id");
-            _activity = await _activityStore.GetActivity(id);
+            _itemsRepository = parameters.GetValue<IItemsRepository>("repository");
+            _activity = await _itemsRepository.GetActivityItemByIdAsync(id);
             Text = _activity.Text;
             Name = _activity.Name;
             SliderValue = _activity.MaxResult;
         }
 
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            parameters.Add("repository", _itemsRepository);
+        }
+
         private async void OnCorrectAndNavigate()
         {
-
-            if (Name != null && Text != null && SliderValue > 0)
+            if (Name != "" && Text != "" && SliderValue > 0)
             {
                 _activity.Name = Name;
                 _activity.Text = Text;
                 _activity.MaxResult = SliderValue;
                 _activity.IsChecked = true;
 
-                await _activityStore.UpdateActivity(_activity);
+                await _itemsRepository.UpdateActivityItemAsync(_activity);
             }
             await NavigationService.GoBackAsync();
         }
 
         private async void OnDeleteAndNavigate()
         {
-            _activityStore.DeleteActivity(_activity);
+            await _itemsRepository.RemoveActivityItemAsync(_activity.Id);
             await NavigationService.GoBackAsync();
         }
     }

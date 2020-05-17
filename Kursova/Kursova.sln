@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kursova", "Kursova\Kursova\Kursova.csproj", "{3905ABEB-9D68-45E5-9FE1-4AFE3A89F0C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kursova", "Kursova\Kursova\Kursova.csproj", "{3905ABEB-9D68-45E5-9FE1-4AFE3A89F0C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kursova.Android", "Kursova\Kursova.Android\Kursova.Android.csproj", "{6063E29E-16FC-4608-9A06-76BB5982C537}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kursova.Standart", "Kursova.Standart\Kursova.Standart.csproj", "{6279CD05-C470-4E47-865D-87CB2EBF50BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{6063E29E-16FC-4608-9A06-76BB5982C537}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6063E29E-16FC-4608-9A06-76BB5982C537}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6063E29E-16FC-4608-9A06-76BB5982C537}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6279CD05-C470-4E47-865D-87CB2EBF50BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6279CD05-C470-4E47-865D-87CB2EBF50BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6279CD05-C470-4E47-865D-87CB2EBF50BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6279CD05-C470-4E47-865D-87CB2EBF50BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
