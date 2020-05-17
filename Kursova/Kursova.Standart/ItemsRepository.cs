@@ -101,5 +101,106 @@ namespace Kursova.Standart
                 return null;
             }
         }
+
+        public async Task<IEnumerable<StatisticItem>> GetStatisticItemsAsync()
+        {
+            try
+            {
+                var statisticItems = await _databaseContext.StatisticItems.ToListAsync();
+                return statisticItems;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<StatisticItem> GetStatisticItemByIdAsync(int id)
+        {
+            try
+            {
+                var statisticItem = await _databaseContext.StatisticItems.FindAsync(id);
+                return statisticItem;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> AddStatisticItemAsync(StatisticItem statisticItem)
+        {
+            try
+            {
+                var tracking = await _databaseContext.StatisticItems.AddAsync(statisticItem);
+                await _databaseContext.SaveChangesAsync();
+                var isAdded = tracking.State == EntityState.Added;
+                return isAdded;
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return false;
+            }
+        }
+
+        public async Task<bool> AddStatisticItemsAsync(IEnumerable<StatisticItem> activityItems)
+        {
+            try
+            {
+                await _databaseContext.StatisticItems.AddRangeAsync(activityItems);
+                await _databaseContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdateStatisticItemAsync(StatisticItem statisticItem)
+        {
+            try
+            {
+                var tracking = _databaseContext.Update(statisticItem);
+                await _databaseContext.SaveChangesAsync();
+                var isModified = tracking.State == EntityState.Modified;
+                return isModified;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveStatisticItemAsync(int id)
+        {
+            try
+            {
+                var statisticItem = await _databaseContext.StatisticItems.FindAsync(id);
+                var tracking = _databaseContext.StatisticItems.Remove(statisticItem);
+                await _databaseContext.SaveChangesAsync();
+                var isDeleted = tracking.State == EntityState.Deleted;
+                return isDeleted;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public async Task<IEnumerable<StatisticItem>> QueryStatisticItemsAsync(Func<StatisticItem, bool> predicate)
+        {
+            try
+            {
+                var statisticItems = _databaseContext.StatisticItems.Where(predicate);
+                return statisticItems.ToList();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
     }
 }

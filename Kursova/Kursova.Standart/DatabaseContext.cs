@@ -5,9 +5,10 @@ namespace Kursova.Standart
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<ActivityItem> ActivityItems { get; set; }
-
         private readonly string _databasePath;
+
+        public DbSet<ActivityItem> ActivityItems { get; set; }
+        public DbSet<StatisticItem> StatisticItems { get; set; }
 
         public DatabaseContext(string databasePath)
         {

@@ -18,5 +18,19 @@ namespace Kursova.Data
         Task<bool> RemoveActivityItemAsync(int id);
 
         Task<IEnumerable<ActivityItem>> QueryActivityItemsAsync(Func<ActivityItem, bool> predicate);
+
+        Task<IEnumerable<StatisticItem>> GetStatisticItemsAsync();
+
+        Task<StatisticItem> GetStatisticItemByIdAsync(int id);
+
+        Task<bool> AddStatisticItemAsync(StatisticItem activityItem);
+
+        Task<bool> AddStatisticItemsAsync(IEnumerable<StatisticItem> activityItems);
+
+        Task<bool> UpdateStatisticItemAsync(StatisticItem activityItem);
+
+        Task<bool> RemoveStatisticItemAsync(int id);
+
+        Task<IEnumerable<StatisticItem>> QueryStatisticItemsAsync(Func<StatisticItem, bool> predicate);
     }
 }

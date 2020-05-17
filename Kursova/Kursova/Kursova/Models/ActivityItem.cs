@@ -1,4 +1,6 @@
-﻿namespace Kursova.Models
+﻿using System.Collections.Generic;
+
+namespace Kursova.Models
 {
     public class ActivityItem
     {
@@ -7,5 +9,7 @@
         public string Text { get; set; }
         public int MaxResult { get; set; }
         public bool IsChecked { get; set; }
+
+        public List<StatisticItem> Statistics { get; set; }
     }
 }
