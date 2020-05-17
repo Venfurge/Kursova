@@ -132,7 +132,7 @@ namespace Kursova.ViewModels
         private async void OnStartPickActivities()
         {
             if (_isActivitiesChecked)
-                await NavigationService.NavigateAsync("ActivitiesPage", null, true);
+                await NavigationService.NavigateAsync("ActivityCompletingPopupPage", null, true);
             else
                 await NavigationService.NavigateAsync("ActivitiesPage", null, true);
         }
