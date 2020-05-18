@@ -40,6 +40,7 @@ namespace Kursova
             containerRegistry.RegisterForNavigation<ActivityCreationPopupPage, ActivityCreationPopupPageViewModel>();
             containerRegistry.RegisterForNavigation<SelectedActivityPopupPage, SelectedActivityPopupPageViewModel>();
             containerRegistry.RegisterForNavigation<ActivityCompletingPopupPage, ActivityCompletingPopupPageViewModel>();
+            containerRegistry.RegisterForNavigation<StatisticPage, StatisticPageViewModel>();
         }
     }
 }

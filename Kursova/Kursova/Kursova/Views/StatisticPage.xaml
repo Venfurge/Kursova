@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="Kursova.Views.StatisticPage">
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" BackgroundColor="{StaticResource LightGreen}" Padding="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Column="0"
+                    HorizontalOptions="Center"
+                    TextColor="{StaticResource White}"
+                    FontFamily="{StaticResource OverpassRegular}"
+                    VerticalOptions="Center"
+                    FontSize="20"
+                    Text="Your Statistic"
+                    Margin="20,0,0,2"/>
+
+                <ImageButton
+                    Grid.Column="1"
+                    Source="x.png"
+                    BackgroundColor="Transparent"
+                    VerticalOptions="Center"
+                    Command="{Binding ClosePageCommand}"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Frame                   
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    CornerRadius="25"
+                    BackgroundColor="{StaticResource LightGreen}"
+                    Padding="10,0">
+                    <Picker 
+                        Title="Select Activity"                     
+                        TextColor="{StaticResource White}"
+                        FontFamily="{StaticResource OverpassSemiBold}"
+                        ItemsSource="{Binding ActivityItems}"
+                        ItemDisplayBinding="{Binding Name}"
+                        SelectedItem="{Binding SelectedActivityItem, Mode=TwoWay}"/>
+                </Frame>
+
+                <Frame                   
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    CornerRadius="25"
+                    BackgroundColor="{StaticResource LightGreen}"
+                    Padding="10,0">
+                    <Picker 
+                        Title="Select Characteristic"                     
+                        TextColor="{StaticResource White}"
+                        FontFamily="{StaticResource OverpassSemiBold}"
+                        ItemsSource="{Binding CharacteristicItems}"
+                        SelectedItem="{Binding SelectedCharacteristicItem, Mode=TwoWay}"/>
+                </Frame>
+
+                <microcharts:ChartView 
+                    Grid.Row="1" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2"
+                    Chart="{Binding Chart}"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

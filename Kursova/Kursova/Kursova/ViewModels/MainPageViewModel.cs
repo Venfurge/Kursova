@@ -109,7 +109,7 @@ namespace Kursova.ViewModels
                     await NavigationService.NavigateAsync("ActivitiesPage", null, true);
                     break;
                 case 2:
-                    await NavigationService.NavigateAsync("", null, true);
+                    await NavigationService.NavigateAsync("StatisticPage", null, true);
                     break;
             }
         }
