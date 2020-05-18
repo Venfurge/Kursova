@@ -37,7 +37,7 @@
                     Command="{Binding ClosePageCommand}"/>
             </Grid>
 
-            <Grid Grid.Row="1" Padding="5">
+            <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -77,11 +77,24 @@
                         SelectedItem="{Binding SelectedCharacteristicItem, Mode=TwoWay}"/>
                 </Frame>
 
-                <microcharts:ChartView 
-                    Grid.Row="1" 
-                    Grid.Column="0" 
+                <CollectionView
+                    Grid.Row="1"
+                    Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Chart="{Binding Chart}"/>
+                    ItemsSource="{Binding ChartItems}"
+                    SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="350"/>
+                                </Grid.RowDefinitions>
+
+                                <microcharts:ChartView Grid.Row="0" Chart="{Binding Chart}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </Grid>
         </Grid>
     </ContentPage.Content>

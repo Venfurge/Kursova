@@ -1,4 +1,5 @@
-﻿using Kursova.ViewModels.ItemsViewModels;
+﻿using Kursova.Models;
+using Kursova.ViewModels.ItemsViewModels;
 using Microcharts;
 using Prism.Commands;
 using Prism.Navigation;
@@ -14,14 +15,13 @@ namespace Kursova.ViewModels
 
         private string _selectedCharacteristicItem;
 
-        private Chart _chart;
-
         public StatisticPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
             ActivityItems = new ObservableCollection<ActivityItemViewModel>();
             StatisticItems = new ObservableCollection<StatisticItemViewModel>();
             CharacteristicItems = new ObservableCollection<string>();
+            ChartItems = new ObservableCollection<ChartItem>();
 
             ClosePageCommand = new DelegateCommand(OnClosePage);
         }
@@ -32,6 +32,8 @@ namespace Kursova.ViewModels
 
         public ObservableCollection<string> CharacteristicItems { get; set; }
 
+        public ObservableCollection<ChartItem> ChartItems { get; set; }
+
         public DelegateCommand ClosePageCommand { get; }
 
         public ActivityItemViewModel SelectedActivityItem
@@ -40,7 +42,7 @@ namespace Kursova.ViewModels
             set
             {
                 _selectedActivityItem = value;
-                UpdateChartValue();
+                UpdateChartItems();
                 RaisePropertyChanged();
             }
         }
@@ -51,17 +53,7 @@ namespace Kursova.ViewModels
             set
             {
                 _selectedCharacteristicItem = value;
-                UpdateChartValue();
-                RaisePropertyChanged();
-            }
-        }
-
-        public Chart Chart
-        {
-            get => _chart;
-            set
-            {
-                _chart = value;
+                UpdateChartItems();
                 RaisePropertyChanged();
             }
         }
@@ -83,27 +75,30 @@ namespace Kursova.ViewModels
                 foreach (var statistic in statistics)
                     StatisticItems.Add(new StatisticItemViewModel(statistic));
 
-            UpdateChartValue();
+            UpdateChartItems();
         }
 
-        private void UpdateChartValue()
+        private void UpdateChartItems()
         {
+            ChartItems.Clear();
             List<Entry> entries = new List<Entry>();
+
             if (SelectedActivityItem != null && SelectedCharacteristicItem != null)
             {
-                foreach (var statisticItem in StatisticItems)
-                    if (statisticItem.ActivityId == SelectedActivityItem.Id)
-                        entries.Add(new Entry(statisticItem.Result)
-                        {
-                            Label = statisticItem.Result.ToString(),
-                            TextColor = SKColor.Parse("#00521c"),
-                            Color = SKColor.Parse("#1eb33d")
-                        });
-                Chart = new LineChart() { Entries = entries, LabelTextSize = 50, PointSize = 25 };
-            }
-            else
-            {
-                Chart = new LineChart() { Entries = entries };
+                switch (SelectedCharacteristicItem)
+                {
+                    case "Result":
+                        foreach (var statisticItem in StatisticItems)
+                            if (statisticItem.ActivityId == SelectedActivityItem.Id)
+                                entries.Add(new Entry(statisticItem.Result)
+                                {
+                                    Label = statisticItem.Result.ToString(),
+                                    TextColor = SKColor.Parse("#00521c"),
+                                    Color = SKColor.Parse("#1eb33d")
+                                });
+                        ChartItems.Add(new ChartItem(new LineChart() { Entries = entries, LabelTextSize = 40, PointSize = 20}));
+                        break;
+                }
             }
         }
 
