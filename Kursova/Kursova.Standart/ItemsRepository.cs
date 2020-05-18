@@ -43,6 +43,20 @@ namespace Kursova.Standart
             }
         }
 
+        public async Task<bool> AddActivityItemsAsync(IEnumerable<ActivityItem> activityItems)
+        {
+            try
+            {
+                await _databaseContext.ActivityItems.AddRangeAsync(activityItems);
+                await _databaseContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> AddActivityItemAsync(ActivityItem activityItem)
         {
             try
@@ -128,6 +142,20 @@ namespace Kursova.Standart
             }
         }
 
+        public async Task<bool> AddStatisticItemsAsync(IEnumerable<StatisticItem> statisticItems)
+        {
+            try
+            {
+                await _databaseContext.StatisticItems.AddRangeAsync(statisticItems);
+                await _databaseContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> AddStatisticItemAsync(StatisticItem statisticItem)
         {
             try
@@ -139,22 +167,6 @@ namespace Kursova.Standart
             }
             catch (Exception e)
             {
-                string message = e.Message;
-                return false;
-            }
-        }
-
-        public async Task<bool> AddStatisticItemsAsync(IEnumerable<StatisticItem> activityItems)
-        {
-            try
-            {
-                await _databaseContext.StatisticItems.AddRangeAsync(activityItems);
-                await _databaseContext.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
                 return false;
             }
         }

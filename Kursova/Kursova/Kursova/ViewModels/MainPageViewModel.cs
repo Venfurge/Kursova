@@ -1,8 +1,8 @@
-﻿using Kursova.Data;
-using Kursova.Models;
+﻿using Kursova.Models;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 
@@ -10,15 +10,9 @@ namespace Kursova.ViewModels
 {
     public class MainPageViewModel : BaseViewModel
     { 
-        private string _text;
-
-        private DateTime _time;
-
         private bool _isActivitiesChecked;
 
         private SlideMenuItem _selectedMenuItem;
-
-        private IItemsRepository _itemsRepository;
 
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -48,6 +42,7 @@ namespace Kursova.ViewModels
             }
         }
 
+        private string _text;
         public string Text
         {
             get => _text;
@@ -58,6 +53,7 @@ namespace Kursova.ViewModels
             }
         }
 
+        private DateTime _time;
         public DateTime Time
         {
             get => _time;
@@ -68,23 +64,12 @@ namespace Kursova.ViewModels
             }
         }
 
-        private async void InitializeSlideMenuOptions()
+        private async void InitializeOptions()
         {
-            var activities = await _itemsRepository.GetActivityItemsAsync();
+            var activities = await ItemsRepository.GetActivityItemsAsync();
+            _isActivitiesChecked = activities.FirstOrDefault(v => v.IsChecked) != null ? true : false;
 
-            _isActivitiesChecked = false;
-            if (activities != null)
-                foreach (var item in activities)
-                    if (item.IsChecked)
-                    {
-                        _isActivitiesChecked = true;
-                        break;
-                    }
-
-            if (_isActivitiesChecked)
-                Text = "Start Activity";
-            else
-                Text = "Select Activity";
+            Text = _isActivitiesChecked ? "Start Activity" : "Select Activity";
 
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
@@ -101,13 +86,13 @@ namespace Kursova.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            _itemsRepository = parameters.GetValue<IItemsRepository>("repository");
-            InitializeSlideMenuOptions();
+            base.OnNavigatedTo(parameters);
+            InitializeOptions();
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            parameters.Add("repository", _itemsRepository);
+            base.OnNavigatedFrom(parameters);            
         }
 
         private async void NavigateToSelectedPage(int pageId)
@@ -116,7 +101,7 @@ namespace Kursova.ViewModels
             {
                 case 0:
                     var parameters = new NavigationParameters();
-                    parameters.Add("repository", _itemsRepository);
+                    parameters.Add("repository", ItemsRepository);
 
                     await NavigationService.NavigateAsync("MainPage", parameters, false);
                     break;

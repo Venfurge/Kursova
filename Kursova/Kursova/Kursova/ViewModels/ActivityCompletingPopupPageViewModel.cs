@@ -1,5 +1,4 @@
-﻿using Kursova.Data;
-using Kursova.Models;
+﻿using Kursova.Models;
 using Kursova.ViewModels.ItemsViewModels;
 using Prism.Commands;
 using Prism.Navigation;
@@ -10,8 +9,6 @@ namespace Kursova.ViewModels
     public class ActivityCompletingPopupPageViewModel : BaseViewModel
     {
         private StatisticItem _statisticItem;
-
-        private IItemsRepository _itemsRepository;
 
         public ActivityCompletingPopupPageViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -27,46 +24,38 @@ namespace Kursova.ViewModels
         public DelegateCommand NextOrEndCommand { get; }
         public int Counter { get; set; }
 
-
-        private async void InitializeItems()
+        private async void InitializeOptions()
         {
-            var statisticItems = await _itemsRepository.GetStatisticItemsAsync();
-            if (statisticItems != null)
-                foreach (var item in statisticItems)
-                    StatisticItems.Add(item);
-
-            StatisticItems.Clear();
-
             Counter = 0;
-            var temp = await _itemsRepository.GetActivityItemsAsync();
+            var temp = await ItemsRepository.GetActivityItemsAsync();
             foreach (var activity in temp)
                 if (activity.IsChecked)
                     Activities.Add(new ActivityItemViewModel(activity));
+
             UpdatePopupPageData();
         }
 
         private void UpdatePopupPageData()
         {
+            SliderValue = 0;
             Name = Activities[Counter].Name;
             Text = Activities[Counter].Text;
             MaxValue = Activities[Counter].MaxResult.ToString();
-            SliderValue = 0;
             ActivitiesCounter = (Counter + 1).ToString() + "/" + Activities.Count.ToString();
-            if (Counter < Activities.Count - 1)
-                ButtonText = "Next";
-            else
-                ButtonText = "End";
+            ButtonText = "Next";
+            if (Counter >= Activities.Count - 1)
+                ButtonText = "End";                
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            _itemsRepository = parameters.GetValue<IItemsRepository>("repository");
-            InitializeItems();
+            base.OnNavigatedTo(parameters);
+            InitializeOptions();
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            parameters.Add("repository", _itemsRepository);
+            base.OnNavigatedFrom(parameters);
         }
 
         private async void OnNextOrEnd()
@@ -85,10 +74,7 @@ namespace Kursova.ViewModels
             }
             else
             {
-                await _itemsRepository.AddStatisticItemsAsync(StatisticItems);
-                //if(StatisticItems.Count > 0)
-                //    foreach (var statisticItem in StatisticItems)
-                //        await _itemsRepository.AddStatisticItemAsync(statisticItem);
+                await ItemsRepository.AddStatisticItemsAsync(StatisticItems);
                 await NavigationService.GoBackAsync();
             }
         }

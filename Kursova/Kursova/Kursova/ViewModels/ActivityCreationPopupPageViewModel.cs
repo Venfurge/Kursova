@@ -1,5 +1,4 @@
-﻿using Kursova.Data;
-using Kursova.Models;
+﻿using Kursova.Models;
 using Prism.Commands;
 using Prism.Navigation;
 
@@ -9,8 +8,6 @@ namespace Kursova.ViewModels
     {
         private ActivityItem _activity;
 
-        private IItemsRepository _itemsRepository;
-
         public ActivityCreationPopupPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
@@ -18,8 +15,6 @@ namespace Kursova.ViewModels
         }
 
         public DelegateCommand AddAndNavigateCommand { get; }
-
-        public int CorrectId { get; set; }
 
         private string _name;
         public string Name
@@ -56,27 +51,27 @@ namespace Kursova.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            _itemsRepository = parameters.GetValue<IItemsRepository>("repository");
-            CorrectId = parameters.GetValue<int>("correctId");
+            base.OnNavigatedTo(parameters);
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            parameters.Add("repository", _itemsRepository);
+            base.OnNavigatedFrom(parameters);
         }
 
         private async void OnAddAndNavigate()
         {
             if (Name != null && Text != null && SliderValue > 0)
             {
-                _activity = new ActivityItem();
-                _activity.Name = Name;
-                _activity.Text = Text;
-                _activity.MaxResult = SliderValue;
-                _activity.IsChecked = true;
-                _activity.Id = CorrectId;
+                _activity = new ActivityItem()
+                {
+                    Name = Name,
+                    Text = Text,
+                    MaxResult = SliderValue,
+                    IsChecked = true
+                };
 
-                await _itemsRepository.AddActivityItemAsync(_activity);
+                await ItemsRepository.AddActivityItemAsync(_activity);
             }
             await NavigationService.GoBackAsync();
         }

@@ -11,6 +11,8 @@ namespace Kursova.Data
 
         Task<ActivityItem> GetActivityItemByIdAsync(int id);
 
+        Task<bool> AddActivityItemsAsync(IEnumerable<ActivityItem> activityItems);
+
         Task<bool> AddActivityItemAsync(ActivityItem activityItem);
 
         Task<bool> UpdateActivityItemAsync(ActivityItem activityItem);
@@ -23,9 +25,9 @@ namespace Kursova.Data
 
         Task<StatisticItem> GetStatisticItemByIdAsync(int id);
 
-        Task<bool> AddStatisticItemAsync(StatisticItem activityItem);
-
         Task<bool> AddStatisticItemsAsync(IEnumerable<StatisticItem> activityItems);
+
+        Task<bool> AddStatisticItemAsync(StatisticItem activityItem);
 
         Task<bool> UpdateStatisticItemAsync(StatisticItem activityItem);
 
