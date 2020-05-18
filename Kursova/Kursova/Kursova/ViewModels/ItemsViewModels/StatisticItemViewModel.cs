@@ -1,5 +1,6 @@
 ﻿using Kursova.Models;
 using Prism.Mvvm;
+using System;
 
 namespace Kursova.ViewModels.ItemsViewModels
 {
@@ -13,6 +14,8 @@ namespace Kursova.ViewModels.ItemsViewModels
             Id = statistic.Id;
             ActivityId = statistic.ActivityId;
             Result = statistic.Result;
+            Date = statistic.Date;
+            Time = statistic.Time;
         }
 
         private int _result;
@@ -22,6 +25,28 @@ namespace Kursova.ViewModels.ItemsViewModels
             set
             {
                 _result = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DateTime _date;
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DateTime _time;
+        public DateTime Time
+        {
+            get => _time;
+            set
+            {
+                _time = value;
                 RaisePropertyChanged();
             }
         }

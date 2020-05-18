@@ -85,12 +85,12 @@
                     SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Grid RowSpacing="0">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="350"/>
                                 </Grid.RowDefinitions>
 
-                                <microcharts:ChartView Grid.Row="0" Chart="{Binding Chart}"/>
+                                <microcharts:ChartView Grid.Row="0" Margin="0,0,0,10" Chart="{Binding Chart}"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

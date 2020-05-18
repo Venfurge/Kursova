@@ -2,6 +2,7 @@
 using Kursova.ViewModels.ItemsViewModels;
 using Prism.Commands;
 using Prism.Navigation;
+using System;
 using System.Collections.Generic;
 
 namespace Kursova.ViewModels
@@ -23,6 +24,7 @@ namespace Kursova.ViewModels
         public List<StatisticItem> StatisticItems { get; set; }
         public DelegateCommand NextOrEndCommand { get; }
         public int Counter { get; set; }
+        public DateTime StartTime { get; set; }
 
         private async void InitializeOptions()
         {
@@ -37,6 +39,7 @@ namespace Kursova.ViewModels
 
         private void UpdatePopupPageData()
         {
+            StartTime = DateTime.Now;
             SliderValue = 0;
             Name = Activities[Counter].Name;
             Text = Activities[Counter].Text;
@@ -63,6 +66,8 @@ namespace Kursova.ViewModels
             _statisticItem = new StatisticItem()
             {
                 ActivityId = Activities[Counter].Id,
+                Date = DateTime.Now,
+                Time = new DateTime() + DateTime.Now.Subtract(StartTime),
                 Result = SliderValue
             };
             StatisticItems.Add(_statisticItem);
