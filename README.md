@@ -25,9 +25,9 @@
 ```
 
 ## Screenshots
-!(https://imgur.com/ZaBkluO)
-!(https://imgur.com/dRfBO3U)
-!(https://imgur.com/SvC5LdC)
-!(https://imgur.com/W22gruO)
-!(https://imgur.com/23ysA0I)
-!(https://imgur.com/KOIDZ9z)
+![MainScreen](https://i.imgur.com/ZaBkluO.jpg)
+![SlideMenu](https://i.imgur.com/dRfBO3U.jpg)
+![ActivitiesListScreen](https://i.imgur.com/Uc9ZSay.jpg)
+![ActivityScreen](https://i.imgur.com/W22gruO.jpg)
+![TrainingScreen](https://i.imgur.com/23ysA0I.jpg)
+![StatisticScreen](https://i.imgur.com/KOIDZ9z.jpg)
