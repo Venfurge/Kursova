@@ -20,8 +20,7 @@
 
 ```
 1) git clone https://github.com/Venfurge/Kursova.git
-2) cd Kursova/Kursova/ClientApp npm install
-3) open with android emulator
+2) open with android emulator
 ```
 
 ## Screenshots
